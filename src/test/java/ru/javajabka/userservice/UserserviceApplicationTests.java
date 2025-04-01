@@ -1,11 +1,10 @@
-package ru.javajabka.user;
+package ru.javajabka.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserApplicationTests {
-
+class UserserviceApplicationTests {
 	@Test
 	void contextLoads() {
 	}

@@ -1,11 +1,11 @@
-package ru.javajabka.user;
+package ru.javajabka.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserApplication {
+public class UserserviceApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
+		SpringApplication.run(UserserviceApplication.class, args);
 	}
 }
