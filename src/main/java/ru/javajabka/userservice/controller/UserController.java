@@ -19,20 +19,20 @@ import ru.javajabka.userservice.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 @Tag(name = "Пользователь")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
+    @PostMapping
     @Operation(summary = "Создать пользователя")
     public UserResponse create(@RequestBody final UserRequest userRequest) {
         return userService.userCreate(userRequest);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Получить пользователя")
     public UserResponse get(@PathVariable final Long id) {
         return userService.getUserById(id);
@@ -44,7 +44,7 @@ public class UserController {
         return userService.userUpdate(id, userRequest);
     }
 
-    @GetMapping("/user/users")
+    @GetMapping
     @Operation(summary = "Получить пользователей")
     public List<UserResponse> getUsers(@RequestParam final List<Long> ids) {
         return userService.getUsers(ids);

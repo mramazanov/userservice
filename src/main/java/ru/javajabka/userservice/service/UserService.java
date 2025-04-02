@@ -3,10 +3,12 @@ package ru.javajabka.userservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.javajabka.userservice.exception.BadRequestException;
 import ru.javajabka.userservice.model.UserRequest;
 import ru.javajabka.userservice.model.UserResponse;
 import ru.javajabka.userservice.repository.UserRepository;
+import ru.javajabka.userservice.util.HashUtil;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,7 +23,13 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public UserResponse userCreate(final UserRequest userRequest) {
         validate(userRequest);
-        return userRepository.insert(userRequest);
+
+        UserRequest userWithHashedPassword = UserRequest.builder()
+                .userName(userRequest.getUserName())
+                .password(HashUtil.getHashedPassword(userRequest.getPassword()))
+                .build();
+
+        return userRepository.insert(userWithHashedPassword);
     }
 
     @Transactional(readOnly = true)
@@ -49,19 +57,13 @@ public class UserService {
             throw new BadRequestException("Введите информацию о пользователе");
         }
 
-        if (userRequest.getUserName() == null || userRequest.getUserName().isEmpty()) {
+        if (!StringUtils.hasText(userRequest.getUserName())) {
             throw new BadRequestException("Введите имя пользователя");
         }
 
-        if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
+        if (!StringUtils.hasText(userRequest.getUserName())) {
             throw new BadRequestException("Введите пароль");
         }
 
-    }
-
-    private boolean validatePassword(final UserRequest userRequest) {
-        Pattern p = Pattern.compile("(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}");
-        Matcher m = p.matcher(userRequest.getPassword());
-        return m.matches();
     }
 }

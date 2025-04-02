@@ -7,10 +7,6 @@ import java.security.NoSuchAlgorithmException;
 public class HashUtil {
 
     public static String getHashedPassword(final String password) {
-        return hashPassword(password);
-    }
-
-    private static String hashPassword(final String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA3-256");
             final byte[] hashbytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));

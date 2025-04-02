@@ -17,28 +17,28 @@ import java.util.List;
 public class UserRepository {
 
     private static final String INSERT = """
-            INSERT INTO person.person (username, password, deleted, created_at)
+            INSERT INTO userservice.person (username, password, deleted, created_at)
             VALUES (:userName, :password, false, now())
             RETURNING *;
             """;
 
     private static final String GET_BY_ID = """
-            SELECT * FROM person.person
-            WHERE deleted != true AND id = :id;
+            SELECT * FROM userservice.person
+            WHERE deleted = false AND id = :id;
             """;
 
     private static final String GET_USERS = """
-            SELECT * FROM person.person WHERE deleted != true AND id IN (:ids)
+            SELECT * FROM userservice.person WHERE deleted != true AND id IN (:ids)
             """;
 
     private static final String UPDATE = """
-            UPDATE person.person SET username=:userName, password=:password, updated_at = now()
-            WHERE deleted != true AND id = :id
+            UPDATE userservice.person SET username=:userName, password=:password, updated_at = now()
+            WHERE deleted = false AND id = :id
             RETURNING *;
             """;
 
     private static final String DELETE = """
-            UPDATE person.person SET deleted = true WHERE deleted != true AND id = :id
+            UPDATE userservice.person SET deleted = true WHERE deleted != true AND id = :id
             RETURNING *;
             """;
 
@@ -92,7 +92,7 @@ public class UserRepository {
 
         if (userRequest != null) {
             params.addValue("userName", userRequest.getUserName().toLowerCase());
-            params.addValue("password", HashUtil.getHashedPassword(userRequest.getPassword()));
+            params.addValue("password", userRequest.getPassword());
         }
 
         return params;

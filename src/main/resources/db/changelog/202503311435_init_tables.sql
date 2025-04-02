@@ -1,6 +1,6 @@
-CREATE SCHEMA person;
+CREATE SCHEMA userservice;
 
-CREATE TABLE person.person (
+CREATE TABLE userservice.person (
     id SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR NOT NULL,
