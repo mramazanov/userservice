@@ -5,14 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.javajabka.userservice.exception.BadRequestException;
-import ru.javajabka.userservice.model.UserRequest;
-import ru.javajabka.userservice.model.UserResponse;
+import ru.javajabka.userservice.model.User;
+import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.repository.UserRepository;
 import ru.javajabka.userservice.util.HashUtil;
-
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +18,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public UserResponse userCreate(final UserRequest userRequest) {
+    public UserResponseDTO userCreate(final User userRequest) {
         validate(userRequest);
 
-        UserRequest userWithHashedPassword = UserRequest.builder()
+        User userWithHashedPassword = User.builder()
                 .userName(userRequest.getUserName())
                 .password(HashUtil.getHashedPassword(userRequest.getPassword()))
                 .build();
@@ -33,26 +30,21 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponse getUserById(final Long id) {
+    public UserResponseDTO getUserById(final Long id) {
         return userRepository.getById(id);
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> getUsers(final List<Long> ids) {
+    public List<UserResponseDTO> getUsers(final List<Long> ids) {
         return userRepository.getUsers(ids);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public UserResponse userUpdate(final Long id, final UserRequest userRequest) {
-        return userRepository.update(id, userRequest);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public UserResponse delete(Long id) {
+    public UserResponseDTO delete(Long id) {
         return userRepository.delete(id);
     }
 
-    private void validate(final UserRequest userRequest) {
+    private void validate(final User userRequest) {
         if (userRequest == null) {
             throw new BadRequestException("Введите информацию о пользователе");
         }
