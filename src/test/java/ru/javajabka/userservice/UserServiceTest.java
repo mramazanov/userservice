@@ -12,8 +12,6 @@ import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.repository.UserRepository;
 import ru.javajabka.userservice.service.UserService;
-import ru.javajabka.userservice.util.HashUtil;
-
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -49,10 +47,8 @@ public class UserServiceTest {
     @Test
     public void shouldDeleteUserCorrect() {
         UserResponseDTO userResponse = buildUserRequest(1L, "Vasya");
-        Mockito.when(userRepository.delete(1L)).thenReturn(userResponse);
         UserService userService = new UserService(userRepository);
-        UserResponseDTO deletedUserResponse = userService.delete(1L);
-        Assertions.assertEquals(userResponse, deletedUserResponse);
+        userService.delete(1L);
         Mockito.verify(userRepository).delete(1L);
     }
 

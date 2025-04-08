@@ -40,7 +40,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public UserResponseDTO delete(Long id) {
+    public Boolean delete(Long id) {
         return userRepository.delete(id);
     }
 

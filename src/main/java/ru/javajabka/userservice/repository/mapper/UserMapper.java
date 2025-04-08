@@ -3,7 +3,6 @@ package ru.javajabka.userservice.repository.mapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.javajabka.userservice.model.UserResponseDTO;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

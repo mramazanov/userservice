@@ -17,28 +17,22 @@ import java.util.List;
 public class UserRepository {
 
     private static final String INSERT = """
-            INSERT INTO userservice.person (username, password, deleted, created_at)
+            INSERT INTO user_service.person (username, password, deleted, created_at)
             VALUES (:userName, :password, false, now())
             RETURNING *;
             """;
 
     private static final String GET_BY_ID = """
-            SELECT * FROM userservice.person
+            SELECT * FROM user_service.person
             WHERE deleted = false AND id = :id;
             """;
 
     private static final String GET_USERS = """
-            SELECT * FROM userservice.person WHERE deleted = false AND id IN (:ids)
-            """;
-
-    private static final String UPDATE = """
-            UPDATE userservice.person SET username = :userName, password = :password, updated_at = now()
-            WHERE deleted = false AND id = :id
-            RETURNING *;
+            SELECT * FROM user_service.person WHERE deleted = false AND id IN (:ids)
             """;
 
     private static final String DELETE = """
-            UPDATE userservice.person SET deleted = true WHERE deleted = false AND id = :id
+            UPDATE user_service.person SET deleted = true WHERE deleted = false AND id = :id
             RETURNING *;
             """;
 
@@ -65,12 +59,13 @@ public class UserRepository {
         return jdbcTemplate.query(GET_USERS, new MapSqlParameterSource("ids", ids), userMapper);
     }
 
-    public UserResponseDTO delete(final Long id) {
+    public Boolean delete(final Long id) {
         try {
-            return jdbcTemplate.queryForObject(DELETE, new MapSqlParameterSource("id" , id), userMapper);
+            jdbcTemplate.queryForObject(DELETE, new MapSqlParameterSource("id" , id), userMapper);
         } catch (EmptyResultDataAccessException exc) {
             throw new BadRequestException((String.format("Пользователь с id %d не найден", id)));
         }
+        return true;
     }
 
     private MapSqlParameterSource userToSql(final User userRequest) {

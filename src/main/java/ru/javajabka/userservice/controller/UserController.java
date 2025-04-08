@@ -45,7 +45,7 @@ public class UserController {
 
     @DeleteMapping
     @Operation(summary = "Удалить пользователя")
-    public UserResponseDTO update(@RequestParam final Long id) {
+    public Boolean update(@RequestParam final Long id) {
         return userService.delete(id);
     }
 }
