@@ -5,8 +5,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Repository;
 import ru.javajabka.userservice.exception.BadRequestException;
+import ru.javajabka.userservice.model.SuccessOperation;
 import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.repository.mapper.UserMapper;
@@ -59,13 +61,12 @@ public class UserRepository {
         return jdbcTemplate.query(GET_USERS, new MapSqlParameterSource("ids", ids), userMapper);
     }
 
-    public Boolean delete(final Long id) {
+    public UserResponseDTO delete(final Long id) {
         try {
-            jdbcTemplate.queryForObject(DELETE, new MapSqlParameterSource("id" , id), userMapper);
+            return jdbcTemplate.queryForObject(DELETE, new MapSqlParameterSource("id" , id), userMapper);
         } catch (EmptyResultDataAccessException exc) {
             throw new BadRequestException((String.format("Пользователь с id %d не найден", id)));
         }
-        return true;
     }
 
     private MapSqlParameterSource userToSql(final User userRequest) {

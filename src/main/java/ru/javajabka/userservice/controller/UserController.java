@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javajabka.userservice.model.SuccessOperation;
 import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.service.UserService;
@@ -45,7 +46,7 @@ public class UserController {
 
     @DeleteMapping
     @Operation(summary = "Удалить пользователя")
-    public Boolean update(@RequestParam final Long id) {
+    public SuccessOperation delete(@RequestParam final Long id) {
         return userService.delete(id);
     }
 }

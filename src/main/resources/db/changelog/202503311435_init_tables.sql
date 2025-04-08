@@ -1,6 +1,6 @@
-CREATE SCHEMA user_service;
+CREATE SCHEMA userservice;
 
-CREATE TABLE user_service.person (
+CREATE TABLE userservice.person (
     id SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR NOT NULL,

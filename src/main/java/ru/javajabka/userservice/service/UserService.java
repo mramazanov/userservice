@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.javajabka.userservice.exception.BadRequestException;
+import ru.javajabka.userservice.model.SuccessOperation;
 import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.repository.UserRepository;
@@ -40,8 +41,11 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Boolean delete(Long id) {
-        return userRepository.delete(id);
+    public SuccessOperation delete(Long id) {
+        userRepository.delete(id);
+        return SuccessOperation.builder()
+                .success(true)
+                .build();
     }
 
     private void validate(final User userRequest) {
