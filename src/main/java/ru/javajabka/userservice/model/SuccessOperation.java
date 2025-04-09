@@ -8,5 +8,4 @@ import lombok.Data;
 public class SuccessOperation {
 
     private final Boolean success;
-    private final String message;
 }
