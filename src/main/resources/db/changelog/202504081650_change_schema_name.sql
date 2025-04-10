@@ -1,0 +1,1 @@
+ALTER SCHEMA userservice RENAME TO user_service
