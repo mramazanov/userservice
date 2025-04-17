@@ -8,4 +8,5 @@ import lombok.Data;
 public class User {
     private final String userName;
     private final String password;
+    private final Role role;
 }

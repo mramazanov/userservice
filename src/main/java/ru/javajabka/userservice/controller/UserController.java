@@ -15,7 +15,6 @@ import ru.javajabka.userservice.model.SuccessOperation;
 import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.service.UserService;
-
 import java.util.List;
 
 @RestController

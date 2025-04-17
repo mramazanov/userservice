@@ -2,7 +2,9 @@ package ru.javajabka.userservice.repository.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import ru.javajabka.userservice.model.Role;
 import ru.javajabka.userservice.model.UserResponseDTO;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,6 +16,7 @@ public class UserMapper implements RowMapper<UserResponseDTO> {
         return UserResponseDTO.builder()
                 .id(rs.getLong("id"))
                 .userName(rs.getString("username"))
+                .role(Role.valueOf(rs.getString("role")))
                 .build();
     }
 }
