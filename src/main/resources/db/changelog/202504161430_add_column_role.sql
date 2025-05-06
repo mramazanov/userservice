@@ -1,0 +1,1 @@
+ALTER TABLE user_service.person ADD COLUMN role varchar(30);

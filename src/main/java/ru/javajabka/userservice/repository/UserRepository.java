@@ -5,10 +5,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Repository;
 import ru.javajabka.userservice.exception.BadRequestException;
-import ru.javajabka.userservice.model.SuccessOperation;
 import ru.javajabka.userservice.model.User;
 import ru.javajabka.userservice.model.UserResponseDTO;
 import ru.javajabka.userservice.repository.mapper.UserMapper;
@@ -19,8 +17,8 @@ import java.util.List;
 public class UserRepository {
 
     private static final String INSERT = """
-            INSERT INTO user_service.person (username, password, deleted, created_at)
-            VALUES (:userName, :password, false, now())
+            INSERT INTO user_service.person (username, password, deleted, created_at, role)
+            VALUES (:userName, :password, false, now(), :role)
             RETURNING *;
             """;
 
@@ -73,6 +71,7 @@ public class UserRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userName", userRequest.getUserName().toLowerCase());
         params.addValue("password", userRequest.getPassword());
+        params.addValue("role", userRequest.getRole().toString());
         return params;
     }
 }

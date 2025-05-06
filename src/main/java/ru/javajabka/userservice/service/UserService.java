@@ -17,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TaskService taskService;
 
     @Transactional(rollbackFor = Exception.class)
     public UserResponseDTO userCreate(final User userRequest) {
@@ -25,6 +26,7 @@ public class UserService {
         User userWithHashedPassword = User.builder()
                 .userName(userRequest.getUserName())
                 .password(HashUtil.getHashedPassword(userRequest.getPassword()))
+                .role(userRequest.getRole())
                 .build();
 
         return userRepository.insert(userWithHashedPassword);
@@ -42,6 +44,7 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public SuccessOperation delete(Long id) {
+        taskService.checkUserTasks(id);
         userRepository.delete(id);
         return SuccessOperation.builder()
                 .success(true)
@@ -59,6 +62,10 @@ public class UserService {
 
         if (!StringUtils.hasText(userRequest.getUserName())) {
             throw new BadRequestException("Введите пароль");
+        }
+
+        if (userRequest.getRole() == null) {
+            throw new BadRequestException("Введите роль для пользователя");
         }
 
     }

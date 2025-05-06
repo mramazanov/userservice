@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/202503311435_init_tables.sql
   - include:
       file: db/changelog/202504081650_change_schema_name.sql
+  - include:
+      file: db/changelog/202504161430_add_column_role.sql
